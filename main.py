@@ -31,7 +31,8 @@ def start(message):
 @bot.message_handler(content_types=['text'])
 def message_reply(message):
     if message.text == ISS_COORD_BUTTON_TEXT:
-        user.user_id = int(message.chat.id)
+
+        user_id = int(message.chat.id)
         iss_current_loc = iss.get_location()
         iss_latitude = iss.latitude
         iss_longitude = iss.longitude
@@ -41,7 +42,7 @@ def message_reply(message):
                           latitude=iss_latitude,
                           longitude=iss_longitude)
 
-        if user.location_checker():
+        if user.location_checker(user_id=user_id):
             print('True')
             if int(user.user_latitude) in range(int(iss_latitude)-5, int(iss_latitude)+5) and int(user.user_longitude) in range(int(iss_longitude)-5, int(iss_longitude)+5):
                 bot.send_message(message.chat.id,
@@ -60,11 +61,13 @@ def location(message):
 
     if message.location is not None:
 
-        user.user_longitude = float(message.location.longitude)
-        user.user_latitude = float(message.location.latitude)
-        user.user_id = int(message.chat.id)
+        user_longitude = float(message.location.longitude)
+        user_latitude = float(message.location.latitude)
+        user_id = int(message.chat.id)
 
-        user.store_coordinates()
+        user.store_coordinates(user_id=user_id,
+                               user_latitude=user_latitude,
+                               user_longitude=user_longitude)
 
         bot.send_message(message.chat.id,
                          text=f'Your location saved.\nUse "{ISS_COORD_BUTTON_TEXT}" to check if the ISS is  in sight.')
