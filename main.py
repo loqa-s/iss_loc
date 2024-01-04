@@ -42,7 +42,7 @@ def message_reply(message):
                           latitude=iss_latitude,
                           longitude=iss_longitude)
 
-        if user.location_checker(user_id=user_id):
+        if user.has_location_stored(user_id=user_id):
             print('True')
             if int(user.user_latitude) in range(int(iss_latitude)-5, int(iss_latitude)+5) and int(user.user_longitude) in range(int(iss_longitude)-5, int(iss_longitude)+5):
                 bot.send_message(message.chat.id,

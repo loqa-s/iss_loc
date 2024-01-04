@@ -16,7 +16,6 @@ class UserCoordinates:
     def __init__(self):
         self.user_longitude = float
         self.user_latitude = float
-        self.user_id = int
 
     def store_coordinates(self, user_id, user_latitude, user_longitude):
         data = [(user_id, user_latitude, user_longitude)]
@@ -33,8 +32,7 @@ class UserCoordinates:
 
         duplicates_checker()
 
-    def location_checker(self, user_id):
-        self.user_id = user_id
+    def has_location_stored(self, user_id):
         try:
             users_data_coords = pd.read_csv('users_data.csv')
             if users_data_coords.loc[users_data_coords['0'] == user_id]['1'].any():
